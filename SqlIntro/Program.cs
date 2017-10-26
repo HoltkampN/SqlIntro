@@ -6,17 +6,38 @@ namespace SqlIntro
     {
         static void Main(string[] args)
         {
-            var connectionString = ""; //get connectionString format from connectionstrings.com and change to match your database
-            var repo = new ProductRepository(connectionString);
+            var connectionString = "Server=localhost;Database=adventureworks;Uid=root;Pwd=1234;"; //get connectionString format from connectionstrings.com and change to match your database
+            var repo = new DapperDb(connectionString);
             foreach (var prod in repo.GetProducts())
             {
-                Console.WriteLine("Product Name:" + prod.Name);
+                Console.WriteLine("Product Name: " + prod.Name + " Time: " + prod.Date.DayOfWeek);
+
             }
 
-           
+            repo.DeleteProduct(500);
+
+            repo.InsertProduct(new Product
+            {
+                Name = "Superb",
+                Color = "Orange",
+                Date = new DateTime(2000, 10, 22),
+                ListPrice = 3.00,
+                ProductNumber = "2bornot2b",
+                SellStartDate = new DateTime(2000, 10, 22),
+                SafetyStockLevel = 3,
+                DaysToManufacture = 4,
+                FinishedGoodsFlag = true,
+                ModifiedDate = new DateTime(2000, 10, 22),
+                MakeFlag = false,
+                ReorderPoint = 77,
+                StandardCost = 5,
+            });
+
+            repo.UpdateProduct(new Product { ProductId = 1, Name = "Superb" });
             Console.ReadLine();
         }
 
-       
+
     }
+}
 }
